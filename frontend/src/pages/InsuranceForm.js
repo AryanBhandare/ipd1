@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { TextField, Button } from '@mui/material';
-import {MenuItem} from '@mui/material';
+import { MenuItem } from '@mui/material';
 import CustomAlert from '../components/CustomAlert';
 import EditorHeader from '../components/EditorHeader';
 import EditorButtons from '../components/EditorButtons';
@@ -25,19 +25,18 @@ const InsuranceForm = () => {
         { defaultMatches: true }
     );
     const [send, setSend] = React.useState(false);
-    const [result, setResult] = React.useState(false);
     const canvasRef = React.createRef();
     const [formData, setFormData] = useState({
         Ball_control: "",
-        d_r:"",
-        total_power:"",
-        shoo_hand:"",
-        age:"",
-        total_mentality:"",
-        finishing:"",
-        pass_kick:"",
-        shot_pow:"",
-        int_rep:"",
+        d_r: "",
+        total_power: "",
+        shoo_hand: "",
+        age: "",
+        total_mentality: "",
+        finishing: "",
+        pass_kick: "",
+        shot_pow: "",
+        int_rep: "",
     });
     const [prediction, setPrediction] = useState(null);
 
@@ -62,86 +61,87 @@ const InsuranceForm = () => {
     };
     const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log(modifiedFormData)
         try {
-          const response = await fetch('http://127.0.0.1:8000', {
-            method: 'POST',
-            body:  JSON.stringify(modifiedFormData),
-            
-            headers: {
-              'Content-Type': 'application/json'
+            const response = await fetch('http://0.0.0.0:8080/prediction', {
+                method: 'POST',
+                body: JSON.stringify(modifiedFormData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            console.log(data.data)
+            if (data.data.prediction) {
+                setPrediction(data.data.prediction);
             }
-          });
-          const data = await response.json();
-          setPrediction(data);
-          setSend(true);
-          setResult(true);
-          console.log(prediction)
-          console.log(JSON.stringify(modifiedFormData))
-
-
+            else {
+                setPrediction(undefined)
+            }
+            setSend(true);
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
-      
-    
-
- 
- 
-const handleDownload = () => {
-    const documentDefinition = {
-      content: [
-        {
-          text: "Insurance  ",
-          style: "header"
-        },
-        {
-          text: "Ball Control: " + formData.Ball_control
-        },
-        {
-            text: "Dribbling/Reflexes: " + formData.d_r
-        },
-        {
-          text: "Total power " + formData.total_power
-        },
-        {
-          text: "Shooting/Handling: " + formData.shoo_hand
-        },
-        {
-          text: "Age: " + formData.age
-        },
-        {
-          text: "Total Mentality: " + formData.total_mentality
-        },
-        {
-          text: "Finishing: " +formData.finishing
-        },
-        {
-            text: "Passing/Kicking: " +formData.pass_kick
-        },
-        {
-            text: "Shot Power: " +formData.shot_pow
-        },
-        {
-            text: "International Reputation: " +formData.int_rep
-        },
-        {
-          text: "Prediction: " +  `$${prediction}`
-        }
-      ],
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          margin: [0, 0, 0, 10]
-        }
-      }
     };
-    pdfMake.createPdf(documentDefinition).download("InsuranceDetail.pdf");
-  };
-    
 
-    
+
+
+
+
+    const handleDownload = () => {
+        const documentDefinition = {
+            content: [
+                {
+                    text: "Insurance  ",
+                    style: "header"
+                },
+                {
+                    text: "Ball Control: " + formData.Ball_control
+                },
+                {
+                    text: "Dribbling/Reflexes: " + formData.d_r
+                },
+                {
+                    text: "Total power " + formData.total_power
+                },
+                {
+                    text: "Shooting/Handling: " + formData.shoo_hand
+                },
+                {
+                    text: "Age: " + formData.age
+                },
+                {
+                    text: "Total Mentality: " + formData.total_mentality
+                },
+                {
+                    text: "Finishing: " + formData.finishing
+                },
+                {
+                    text: "Passing/Kicking: " + formData.pass_kick
+                },
+                {
+                    text: "Shot Power: " + formData.shot_pow
+                },
+                {
+                    text: "International Reputation: " + formData.int_rep
+                },
+                {
+                    text: "Prediction: " + `$${prediction}`
+                }
+            ],
+            styles: {
+                header: {
+                    fontSize: 18,
+                    bold: true,
+                    margin: [0, 0, 0, 10]
+                }
+            }
+        };
+        pdfMake.createPdf(documentDefinition).download("InsuranceDetail.pdf");
+    };
+
+
+
 
     return (
         <>
@@ -183,118 +183,118 @@ const handleDownload = () => {
                         <Grid item xs={12} md={6}>
                             <Card>
                                 <CardContent>
-                                      <Grid container spacing={2}>
-                                            <Grid item xs={12}>
-                                                <TextField
-                                                    label="Ball Control"
-                                                    type="number"
-                                                    name="Ball_Control"
-                                                    value={formData.Ball_control}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                    fullWidth
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12}>
                                             <TextField
-                                                    label="Dribbling/Reflexes"
-                                                    type="number"
-                                                    name="d_r"
-                                                    value={formData.d_r}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                    fullWidth
+                                                label="Ball Control"
+                                                type="number"
+                                                name="Ball_control"
+                                                value={formData.Ball_control}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                                fullWidth
                                             />
-                                            </Grid>
-                                            <Grid item xs={12}>
+                                        </Grid>
+                                        <Grid item xs={12}>
                                             <TextField
-                                                    label="Total Power"
-                                                    type="number"
-                                                    name="total_power"
-                                                    value={formData.total_power}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                    fullWidth
+                                                label="Dribbling/Reflexes"
+                                                type="number"
+                                                name="d_r"
+                                                value={formData.d_r}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                                fullWidth
                                             />
-                                            </Grid>
-                                            <Grid item xs={12}>
+                                        </Grid>
+                                        <Grid item xs={12}>
                                             <TextField
-                                                    label="Shooting/Handling"
-                                                    type="number"
-                                                    name="shoo_hand"
-                                                    value={formData.shoo_hand}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                    fullWidth
+                                                label="Total Power"
+                                                type="number"
+                                                name="total_power"
+                                                value={formData.total_power}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                                fullWidth
                                             />
-                                            </Grid>
-                                            <Grid item xs={12}>
+                                        </Grid>
+                                        <Grid item xs={12}>
                                             <TextField
-                                                    label="Age"
-                                                    type="number"
-                                                    name="age"
-                                                    value={formData.age}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                    fullWidth
+                                                label="Shooting/Handling"
+                                                type="number"
+                                                name="shoo_hand"
+                                                value={formData.shoo_hand}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                                fullWidth
                                             />
-                                            </Grid>
-                                            <Grid item xs={12}>
+                                        </Grid>
+                                        <Grid item xs={12}>
                                             <TextField
-                                                    label="Total Mentality"
-                                                    type="number"
-                                                    name="total_mentality"
-                                                    value={formData.total_mentality}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                    fullWidth
+                                                label="Age"
+                                                type="number"
+                                                name="age"
+                                                value={formData.age}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                                fullWidth
                                             />
-                                            </Grid>
-                                            <Grid item xs={12}>
+                                        </Grid>
+                                        <Grid item xs={12}>
                                             <TextField
-                                                    label="Finishing"
-                                                    type="number"
-                                                    name="finishing"
-                                                    value={formData.finishing}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                    fullWidth
+                                                label="Total Mentality"
+                                                type="number"
+                                                name="total_mentality"
+                                                value={formData.total_mentality}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                                fullWidth
                                             />
-                                            </Grid>
-                                            <Grid item xs={12}>
+                                        </Grid>
+                                        <Grid item xs={12}>
                                             <TextField
-                                                    label="Passing/Kicking"
-                                                    type="number"
-                                                    name="pass_kick"
-                                                    value={formData.pass_kick}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                    fullWidth
+                                                label="Finishing"
+                                                type="number"
+                                                name="finishing"
+                                                value={formData.finishing}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                                fullWidth
                                             />
-                                            </Grid>
-                                            <Grid item xs={12}>
+                                        </Grid>
+                                        <Grid item xs={12}>
                                             <TextField
-                                                    label="Shot Power"
-                                                    type="number"
-                                                    name="shot_pow"
-                                                    value={formData.shot_pow}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                    fullWidth
+                                                label="Passing/Kicking"
+                                                type="number"
+                                                name="pass_kick"
+                                                value={formData.pass_kick}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                                fullWidth
                                             />
-                                            </Grid>
-                                            <Grid item xs={12}>
+                                        </Grid>
+                                        <Grid item xs={12}>
                                             <TextField
-                                                    label="International reputation"
-                                                    type="number"
-                                                    name="int_rep"
-                                                    value={formData.int_rep}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                    fullWidth
+                                                label="Shot Power"
+                                                type="number"
+                                                name="shot_pow"
+                                                value={formData.shot_pow}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                                fullWidth
                                             />
-                                            </Grid>                                
-                                        </Grid>    
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                label="International reputation"
+                                                type="number"
+                                                name="int_rep"
+                                                value={formData.int_rep}
+                                                onChange={handleChange}
+                                                margin="normal"
+                                                fullWidth
+                                            />
+                                        </Grid>
+                                    </Grid>
                                 </CardContent>
                             </Card>
                         </Grid>
@@ -320,7 +320,7 @@ const handleDownload = () => {
                                             flexDirection='flex'
                                             justifyContent='center'
                                         >
-                                            {result && (
+                                            {prediction && (
                                                 <>
                                                     <Typography
                                                         variant='h5'
@@ -340,7 +340,7 @@ const handleDownload = () => {
                                                                 fontSize: '50px'
                                                             }}
                                                         >
-                                                    { `$${prediction}` }
+                                                            {`$${prediction}`}
                                                         </span>
                                                     </Typography>
                                                 </ >
