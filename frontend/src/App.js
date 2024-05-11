@@ -10,12 +10,12 @@ import InsuranceForm from './pages/InsuranceForm';
 const App = () => {
   return (
     <HelmetProvider>
-      < Helmet titleTemplate='%s| Insurance Cost Predictor' defaultTitle='Insurance Cost Predictor' />
+      < Helmet titleTemplate='%s| Football Market Value' defaultTitle='Football Market Value' />
       <BrowserRouter>
         <Layout>
           <Routes>
             <Route exact path='/' element={<Home />} />
-            <Route exact path='/insurance-form' element={<InsuranceForm />} />
+            <Route exact path='/football-market-value' element={<InsuranceForm />} />
 
           </Routes>
         </Layout>

@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from fastapi import FastAPI
 
 from fastapi.middleware.cors import CORSMiddleware
-
+import math
 # Initializing the fast API server
 
 app = FastAPI()
@@ -19,7 +19,7 @@ origins = [
     "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:8080",
-    "http://localhost:3000"
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
@@ -29,9 +29,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-model = pickle.load(open("Model/foot.pkl", "rb"))
-# Defining the model input types
 
 
 class Player(BaseModel):
@@ -58,6 +55,7 @@ def read_root():
 
 @app.post("/prediction")
 async def get_predict(data: Player):
+    model = pickle.load(open("Model/foot.pkl", "rb"))
     print("DATA GOT")
     sample = [
         [
@@ -74,11 +72,24 @@ async def get_predict(data: Player):
         ]
     ]
 
-    hired = model.predict(sample).tolist()[0]
+    print(sample)
+    print(model)
+
+    prediction = model.predict(sample)
+    print(prediction)
+    # Calculate antilog in base 10
+    antilog_base10 = 10 ** prediction
+
+# Calculate antilog in base e (natural antilog)
+    antilog_base_e = math.exp(prediction)
+    print(antilog_base_e)
+
+    hired = prediction.tolist()[0]
+    print("AAAA", hired)
 
     return {
         "data": {
-            "prediction": hired,
+            "prediction": antilog_base_e,
         }
     }
 

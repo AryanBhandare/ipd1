@@ -46,7 +46,6 @@ const Footer = () => {
                                                 variant='body2'
                                                 color={theme.palette.text.secondary}
                                             >
-                                                Copyright &copy; {new Date().getFullYear()} Aditya Finance Bank.
                                             </Typography>
                                         }
                                     />
